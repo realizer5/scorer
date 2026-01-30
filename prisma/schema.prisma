@@ -1,0 +1,88 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Tournament {
+  id        String   @id @default(cuid())
+  name      String
+  location  String
+  startDate DateTime
+  endDate   DateTime
+  createdAt DateTime @default(now())
+
+  teams     Team[]
+  matches   Match[]
+}
+
+model Team {
+  id           String   @id @default(cuid())
+  name         String
+  tournamentId String
+  createdAt    DateTime @default(now())
+
+  tournament Tournament @relation(fields: [tournamentId], references: [id])
+  players    Player[]
+  teamAMatches Match[] @relation("TeamA")
+  teamBMatches Match[] @relation("TeamB")
+}
+
+model Player {
+  id        String   @id @default(cuid())
+  name      String
+  role      PlayerRole
+  teamId    String
+  createdAt DateTime @default(now())
+
+  team Team @relation(fields: [teamId], references: [id])
+}
+
+enum PlayerRole {
+  BATSMAN
+  BOWLER
+  ALL_ROUNDER
+  WICKET_KEEPER
+}
+
+model Match {
+  id           String      @id @default(cuid())
+  tournamentId String
+  teamAId      String
+  teamBId      String
+  matchDate    DateTime
+  overs        Int
+  status       MatchStatus @default(SCHEDULED)
+  createdAt    DateTime    @default(now())
+
+  tournament Tournament @relation(fields: [tournamentId], references: [id])
+  teamA      Team       @relation("TeamA", fields: [teamAId], references: [id])
+  teamB      Team       @relation("TeamB", fields: [teamBId], references: [id])
+  innings    Inning[]
+}
+
+model Inning {
+  id        String @id @default(cuid())
+  matchId  String
+  battingTeamId String
+  runs     Int
+  wickets  Int
+  overs    Float
+
+  match Match @relation(fields: [matchId], references: [id])
+}
+
+enum MatchStatus {
+  SCHEDULED
+  LIVE
+  COMPLETED
+}
