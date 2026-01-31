@@ -3,10 +3,12 @@ import { Card, CardContent } from "@/components/ui/card";
 import prisma from "@/lib/prisma";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-interface Props {
-    params: { teamId: string };
-}
-const TeamPage = async ({ params }: Props) => {
+
+const TeamPage = async ({
+    params,
+}: {
+    params: Promise<{ teamId: string }>;
+}) => {
     const { teamId } = await params;
     const team = await prisma.team.findUnique({
         where: { id: teamId },

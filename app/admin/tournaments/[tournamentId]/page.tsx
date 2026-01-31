@@ -14,11 +14,11 @@ import prisma from "@/lib/prisma";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-interface Props {
-    params: { tournamentId: string };
-}
-
-const TournamentDashboard = async ({ params }: Props) => {
+const TournamentDashboard = async ({
+    params,
+}: {
+    params: Promise<{ tournamentId: string }>;
+}) => {
     const { tournamentId } = await params;
     const tournament = await prisma.tournament.findUnique({
         where: { id: tournamentId },

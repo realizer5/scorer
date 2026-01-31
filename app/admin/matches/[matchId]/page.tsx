@@ -7,11 +7,11 @@ import prisma from "@/lib/prisma";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-interface Props {
-    params: { matchId: string };
-}
-
-const MatchPage = async ({ params }: Props) => {
+const MatchPage = async ({
+    params,
+}: {
+    params: Promise<{ matchId: string }>;
+}) => {
     const { matchId } = await params;
     const match = await prisma.match.findUnique({
         where: { id: matchId },

@@ -12,10 +12,11 @@ import {
 import prisma from "@/lib/prisma";
 import { notFound } from "next/navigation";
 
-interface Props {
-    params: { matchId: string };
-}
-const NewInningPage = async ({ params }: Props) => {
+const NewInningPage = async ({
+    params,
+}: {
+    params: Promise<{ matchId: string }>;
+}) => {
     const { matchId } = await params;
     const match = await prisma.match.findUnique({
         where: { id: matchId },

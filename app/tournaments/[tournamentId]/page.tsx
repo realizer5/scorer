@@ -1,14 +1,16 @@
 import { calculatePointsTable } from "@/lib/pointsTable";
 
 const getTournament = async (id: string) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/public/tournaments/${id}`);
+    const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/public/tournaments/${id}`,
+    );
     return res.json();
 };
 
 const PublicTournamentPage = async ({
     params,
 }: {
-    params: { tournamentId: string };
+    params: Promise<{ tournamentId: string }>;
 }) => {
     const { tournamentId } = await params;
     const tournament = await getTournament(tournamentId);

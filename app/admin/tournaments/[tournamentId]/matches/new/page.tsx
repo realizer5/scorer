@@ -12,10 +12,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 
-interface Props {
-    params: { tournamentId: string };
-}
-const NewMatchPage = async ({ params }: Props) => {
+const NewMatchPage = async ({
+    params,
+}: {
+    params: Promise<{ tournamentId: string }>;
+}) => {
     const { tournamentId } = await params;
     const tournament = await prisma.tournament.findUnique({
         where: { id: tournamentId },

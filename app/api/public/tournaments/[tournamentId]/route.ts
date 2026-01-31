@@ -2,7 +2,7 @@ import prisma from "@/lib/prisma";
 
 export const GET = async (
     _req: Request,
-    { params }: { params: { tournamentId: string } },
+    { params }: { params: Promise<{ tournamentId: string }> },
 ) => {
     const { tournamentId } = await params;
     const tournamet = await prisma.tournament.findUnique({

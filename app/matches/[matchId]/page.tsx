@@ -1,9 +1,15 @@
 const getMatch = async (id: string) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/public/matches/${id}`);
+    const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/public/matches/${id}`,
+    );
     return res.json();
 };
 
-const PublicMatchPage = async ({ params }: { params: { matchId: string } }) => {
+const PublicMatchPage = async ({
+    params,
+}: {
+    params: Promise<{ matchId: string }>;
+}) => {
     const { matchId } = await params;
     const match = await getMatch(matchId);
     return (
