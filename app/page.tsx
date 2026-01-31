@@ -1,5 +1,12 @@
+import { Tournament } from "@/lib/generated/prisma/client";
+
 const getTournaments = async () => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/public/tournaments`);
+    const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/public/tournaments`,
+    );
+    if (!res.ok) {
+        return [];
+    }
     return res.json();
 };
 
@@ -9,7 +16,7 @@ export default async function Home() {
         <div className="max-w-4xl mx-auto mt-10 space-y-4">
             <h1 className="text-2xl font-bold">Tournaments</h1>
 
-            {tournaments.map((t: any) => (
+            {tournaments.map((t: Tournament) => (
                 <a
                     key={t.id}
                     href={`/tournaments/${t.id}`}
