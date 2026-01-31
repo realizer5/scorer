@@ -1,9 +1,4 @@
-const getMatch = async (id: string) => {
-    const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/public/matches/${id}`,
-    );
-    return res.json();
-};
+import { notFound } from "next/navigation";
 
 const PublicMatchPage = async ({
     params,
@@ -11,7 +6,11 @@ const PublicMatchPage = async ({
     params: Promise<{ matchId: string }>;
 }) => {
     const { matchId } = await params;
-    const match = await getMatch(matchId);
+    const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/public/matches/${matchId}`,
+    );
+    if (!res.ok) return notFound();
+    const match = await res.json();
     return (
         <div className="max-w-3xl mx-auto mt-10 space-y-4">
             <h1 className="text-2xl font-bold">

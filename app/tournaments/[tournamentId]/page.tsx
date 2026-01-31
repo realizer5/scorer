@@ -1,11 +1,5 @@
 import { calculatePointsTable } from "@/lib/pointsTable";
-
-const getTournament = async (id: string) => {
-    const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/public/tournaments/${id}`,
-    );
-    return res.json();
-};
+import { notFound } from "next/navigation";
 
 const PublicTournamentPage = async ({
     params,
@@ -13,7 +7,11 @@ const PublicTournamentPage = async ({
     params: Promise<{ tournamentId: string }>;
 }) => {
     const { tournamentId } = await params;
-    const tournament = await getTournament(tournamentId);
+    const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/public/tournaments/${tournamentId}`,
+    );
+    if (!res.ok) return notFound();
+    const tournament = await res.json();
     return (
         <div className="max-w-4xl mx-auto mt-10 space-y-6">
             <h1 className="text-2xl font-bold">{tournament.name}</h1>
