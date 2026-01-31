@@ -1,6 +1,15 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table";
+import { calculatePointsTable } from "@/lib/pointsTable";
 import prisma from "@/lib/prisma";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -46,6 +55,41 @@ const TournamentDashboard = async ({ params }: Props) => {
                 <Link href={`/admin/tournaments/${tournament.id}/matches/new`}>
                     <Button variant="outline">Add Match</Button>
                 </Link>
+            </div>
+
+            {/* POINTS TABLE */}
+            <div className="space-y-3">
+                <h2 className="text-xl font-semibold">Points Table</h2>
+
+                {tournament.matches.length === 0 ? (
+                    <p className="text-muted-foreground">
+                        No completed matches yet.
+                    </p>
+                ) : (
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Team</TableHead>
+                                <TableHead>P</TableHead>
+                                <TableHead>W</TableHead>
+                                <TableHead>L</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {calculatePointsTable(
+                                tournament.teams,
+                                tournament.matches,
+                            ).map((row) => (
+                                <TableRow key={row.teamId}>
+                                    <TableCell>{row.teamName}</TableCell>
+                                    <TableCell>{row.played}</TableCell>
+                                    <TableCell>{row.wins}</TableCell>
+                                    <TableCell>{row.losses}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                )}
             </div>
 
             {/* Match List */}
