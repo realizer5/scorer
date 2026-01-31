@@ -1,3 +1,4 @@
+"use client"
 import { Tournament } from "@/lib/generated/prisma/client";
 
 const getTournaments = async () => {
