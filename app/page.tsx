@@ -1,18 +1,12 @@
-"use client"
 import { Tournament } from "@/lib/generated/prisma/client";
+import { notFound } from "next/navigation";
 
-const getTournaments = async () => {
+export default async function Home() {
     const res = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/public/tournaments`,
     );
-    if (!res.ok) {
-        return [];
-    }
-    return res.json();
-};
-
-export default async function Home() {
-    const tournaments = await getTournaments();
+    if (!res.ok) return notFound();
+    const tournaments = await res.json();
     return (
         <div className="max-w-4xl mx-auto mt-10 space-y-4">
             <h1 className="text-2xl font-bold">Tournaments</h1>
