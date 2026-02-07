@@ -1,4 +1,6 @@
 import { Tournament } from "@/lib/generated/prisma/client";
+import { format } from "date-fns";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 export default async function Home() {
@@ -12,15 +14,19 @@ export default async function Home() {
             <h1 className="text-2xl font-bold">Tournaments</h1>
 
             {tournaments.map((t: Tournament) => (
-                <a
+                <Link
                     key={t.id}
                     href={`/tournaments/${t.id}`}
                     className="block border rounded p-4 hover:bg-muted">
                     <div className="font-medium">{t.name}</div>
-                    <div className="text-sm text-muted-foreground">
-                        {t.location}
+                    <div className="text-sm text-muted-foreground space-x-2">
+                        <span>{t.location}</span>
+                        <span>
+                            {format(t.startDate, "LLL dd ")} -{" "}
+                            {format(t.endDate, "LLL dd y")}{" "}
+                        </span>
                     </div>
-                </a>
+                </Link>
             ))}
         </div>
     );

@@ -1,4 +1,12 @@
-import { calculatePointsTable } from "@/lib/pointsTable";
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 const PublicTournamentPage = async ({
@@ -19,26 +27,32 @@ const PublicTournamentPage = async ({
             {/* Matches */}
             <div>
                 <h2 className="font-semibold">Matches</h2>
-                {tournament.matches.map((m: any) => (
-                    <a
-                        key={m.id}
-                        href={`/matches/${m.id}`}
-                        className="block py-2">
-                        {m.teamA.name} vs {m.teamB.name}
-                    </a>
-                ))}
-            </div>
-
-            {/* Points Table */}
-            <div>
-                <h2 className="font-semibold">Points Table</h2>
-                {calculatePointsTable(tournament.teams, tournament.matches).map(
-                    (row) => (
-                        <div key={row.teamId}>
-                            {row.teamName} – {row.wins} wins
-                        </div>
-                    ),
-                )}
+                <Table>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead>Match</TableHead>
+                            <TableHead>Won</TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {tournament.matches.map((m: any) => (
+                            <TableRow key={m.id}>
+                                <TableCell>
+                                    <Link href={`/matches/${m.id}`}>
+                                        {m.teamA.name} vs {m.teamB.name}
+                                    </Link>
+                                </TableCell>
+                                <TableCell>
+                                    {m.winnerTeamId
+                                        ? m.winnerTeamId === m.teamA.id
+                                            ? m.teamA.name
+                                            : m.teamB.name
+                                        : "none"}
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
             </div>
         </div>
     );

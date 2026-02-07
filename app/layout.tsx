@@ -13,18 +13,16 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
     title: "Crick Track",
     description: "Cricket Local Tournament Scoring",
-    verification: {
-        google: "eIr9AzdPRbHnjqbJDUHtHpjenQavcR1K5ZJLgDI8a9M"
-    }
+    verification: { google: "KBYcsTt2KFPvNl2ENwA3VQkE-OrzEjS_J706xELeIL8" },
 };
 
 export default function RootLayout({
     children,
 }: Readonly<{ children: React.ReactNode }>) {
     return (
-        <html lang="en">
+        <html lang="en" suppressHydrationWarning>
             <body
-                className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+                className={`${geistSans.variable} ${geistMono.variable} antialiased px-4`}>
                 <ThemeProvider
                     attribute={"class"}
                     defaultTheme="system"
