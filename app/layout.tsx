@@ -11,9 +11,17 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+    metadataBase: process.env.NEXT_PUBLIC_BASE_URL,
     title: "Crick Track",
-    description: "Cricket Local Tournament Scoring",
+    description: "Cricket Local Tournament Scoring and Management",
     verification: { google: "KBYcsTt2KFPvNl2ENwA3VQkE-OrzEjS_J706xELeIL8" },
+    openGraph: {
+        title: "Crick Track",
+        description: "Cricket Local Tournament Scoring and Management",
+        images: "/icon.png",
+    },
+    keywords:
+        "cricktrack, cricket, score, tournament, realizer, scorer, cricket score",
 };
 
 export default function RootLayout({
