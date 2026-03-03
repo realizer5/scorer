@@ -12,7 +12,6 @@ export default async function Home() {
     const tournaments = await res.json();
     return (
         <div className="max-w-4xl mx-auto mt-10 space-y-4">
-            <h1 className="text-2xl font-bold">CrickTrack</h1>
             <h2 className="text-2xl font-bold">Tournaments</h2>
 
             {tournaments.map((t: Tournament) => (
